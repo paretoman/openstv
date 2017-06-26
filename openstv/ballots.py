@@ -426,6 +426,13 @@ class Ballots(object):
     self.loader = loaderClass()
     self.loader.save(self, fName, packed)
 
+  def loadText(self, text):
+    extension = "txt"
+    exclude0 = True
+    loaderClass = getLoaderPluginClass(extension, exclude0)
+    self.loader = loaderClass()
+    self.loader.loadText2(self, text)
+    
   def loadKnown(self, fName, extension=None, exclude0 = True):
     "Load a file based on its file extension."
     
@@ -538,7 +545,11 @@ class Ballots(object):
       txt = sep.join(itemList[:-1])
       txt += sep + "and " + itemList[-1]
     return txt
-
+    
+  def listNames(self, itemList):
+    assert(len(itemList) > 0)
+    return [self.names[c] for c in itemList[:]]
+    
   def isalnum(self):
     """Are all candidate names alphanumeric?"""
     for name in self.names:

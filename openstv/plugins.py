@@ -18,6 +18,7 @@ import sys
 import os.path
 import textwrap
 import pkgutil
+import StringIO
 
 from openstv.utils import getHome
 
@@ -139,6 +140,9 @@ control.SetValue(%s)""" % self.saveWinnersBallots,
 
       else:
         assert(0)
+        
+  def getWinnerList(self):
+    return self.b.listNames(list(self.winners))
 
 ##################################################################
 
@@ -164,6 +168,14 @@ class LoaderPlugin(object):
     if ('' == ext):
       fName += "." + self.extensions[0]
     return fName
+    
+  def loadText2(self, ballotList, text):
+    """Load a file from a filename"""
+    f = StringIO.StringIO(text)
+    #self.fName = fName
+    #f = open(self.fName, "r")
+    self.loadFromObject(ballotList, f)
+    f.close()
 
   def load(self, ballotList, fName):
     """Load a file from a filename"""
